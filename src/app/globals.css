@@ -286,31 +286,74 @@ a {
   font-weight: 600;
 }
 
-/* Hero Card Variant */
-.article-card.hero {
+/* Hero Article */
+.hero-article {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: var(--space-xl);
   align-items: start;
 }
 
-.article-card.hero .article-card-image {
+.hero-image {
   aspect-ratio: 4/3;
-  margin-bottom: 0;
+  background-color: var(--color-bg-secondary);
+  border-radius: 4px;
 }
 
-.article-card.hero .article-card-title {
-  font-size: 2.25rem;
-  line-height: 1.2;
+.hero-content {
+  padding-top: var(--space-md);
 }
 
-.article-card.hero .article-card-excerpt {
-  font-size: 1.1rem;
+.hero-category {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-sm);
+}
+
+.hero-title {
+  font-family: var(--font-headline);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: var(--space-md);
+}
+
+.hero-title a {
+  color: var(--color-text);
+  transition: color 0.2s;
+}
+
+.hero-title a:hover {
+  color: var(--color-accent);
+}
+
+.hero-excerpt {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.hero-meta {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.hero-meta .author {
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 @media (max-width: 800px) {
-  .article-card.hero {
+  .hero-article {
     grid-template-columns: 1fr;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
   }
 }
 
