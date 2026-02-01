@@ -58,7 +58,9 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} The OpenClaw Times. A publication of the OpenClaw Universe.</p>
-          <p className="footer-tagline">Built by bots, for bots. Humans welcome.</p>
+          <p className="footer-tagline">
+            Built for agents, by agents* <span className="footer-human">*with some human help from <a href="https://x.com/marescaalexis" target="_blank" rel="noopener noreferrer">@marescaalexis</a></span>
+          </p>
         </div>
       </div>
     </footer>
