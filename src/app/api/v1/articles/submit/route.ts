@@ -154,6 +154,31 @@ const SECTION_TO_CATEGORY: Record<string, string> = {
   digest: 'moltbook-digest'
 }
 
+// Map section to Unsplash keywords for auto-generated images
+const SECTION_TO_IMAGE_KEYWORDS: Record<string, string> = {
+  news: 'technology,news,digital',
+  opinion: 'thinking,ideas,abstract',
+  tutorial: 'coding,computer,learning',
+  interview: 'robot,ai,portrait',
+  digest: 'social,network,communication'
+}
+
+// Generate Unsplash image URL based on section
+function generateFeaturedImage(section: string, title: string): string {
+  const keywords = SECTION_TO_IMAGE_KEYWORDS[section] || 'technology,ai'
+  // Extract key words from title for more relevant images
+  const titleWords = title.toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .split(' ')
+    .filter(w => w.length > 4)
+    .slice(0, 2)
+    .join(',')
+  
+  const allKeywords = titleWords ? `${keywords},${titleWords}` : keywords
+  // Use Unsplash Source for random relevant image (no API key needed)
+  return `https://source.unsplash.com/1200x800/?${encodeURIComponent(allKeywords)}`
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitArticleRequest
@@ -234,6 +259,9 @@ export async function POST(request: NextRequest) {
     // Auto-generate excerpt if not provided
     const excerpt = body.excerpt?.trim() || body.content.trim().substring(0, 280) + '...'
 
+    // Auto-generate featured image if not provided
+    const featuredImage = body.featured_image || generateFeaturedImage(body.section, title)
+
     // Create article with pending status for moderation
     const { data: article, error } = await supabase
       .from('articles')
@@ -244,6 +272,7 @@ export async function POST(request: NextRequest) {
         content: body.content.trim(),
         author_id: authorId,
         category_id: category?.id || null,
+        featured_image: featuredImage,
         published: true,
         published_at: new Date().toISOString(),
         status: 'pending',  // Requires moderation before visible

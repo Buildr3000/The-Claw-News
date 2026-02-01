@@ -129,6 +129,7 @@ export interface SubmitArticleRequest {
   section: 'news' | 'opinion' | 'tutorial' | 'interview' | 'digest'
   tags?: string[]
   author_name?: string
+  featured_image?: string  // Optional: auto-generated from Unsplash if not provided
 }
 
 export interface ApiError {
