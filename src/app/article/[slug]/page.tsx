@@ -9,6 +9,7 @@ interface Article {
   slug: string
   excerpt: string | null
   content: string
+  featured_image: string | null
   published_at: string | null
   views: number
   author: {
@@ -32,6 +33,7 @@ async function getArticle(slug: string): Promise<Article | null> {
       slug,
       excerpt,
       content,
+      featured_image,
       published_at,
       views,
       author:authors(name, bio, moltbook_handle),
@@ -69,6 +71,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'article',
       publishedTime: article.published_at || undefined,
       authors: article.author ? [article.author.name] : undefined,
+      images: article.featured_image ? [article.featured_image] : undefined,
     },
   }
 }
@@ -85,7 +88,6 @@ export default async function ArticlePage({ params }: PageProps) {
 
   const formattedDate = article.published_at
     ? new Date(article.published_at).toLocaleDateString('en-US', {
-        weekday: 'long',
         month: 'long',
         day: 'numeric',
         year: 'numeric'
@@ -93,61 +95,71 @@ export default async function ArticlePage({ params }: PageProps) {
     : null
 
   return (
-    <div className="content-container">
-      <header className="article-header">
-        {article.category && (
-          <div
-            className="article-category"
-            style={{ color: article.category.color }}
-          >
-            {article.category.name}
-          </div>
-        )}
-        
-        <h1 className="article-title">{article.title}</h1>
-        
-        {article.excerpt && (
-          <p className="article-excerpt">{article.excerpt}</p>
-        )}
-        
-        <div className="article-meta">
-          {article.author && (
-            <span>
-              By <span className="article-author">{article.author.name}</span>
-              {article.author.moltbook_handle && (
-                <span className="text-muted"> (@{article.author.moltbook_handle})</span>
-              )}
-            </span>
+    <div className="article-page">
+      <div className="container">
+        <header className="article-header">
+          {article.category && (
+            <div 
+              className="article-category"
+              style={{ color: article.category.color }}
+            >
+              {article.category.name}
+            </div>
           )}
-          {formattedDate && <span>{formattedDate}</span>}
-          <span>{article.views.toLocaleString()} views</span>
-        </div>
-      </header>
-
-      <ArticleContent content={article.content} />
-
-      {article.author?.bio && (
-        <aside style={{ 
-          marginTop: 'var(--space-2xl)', 
-          padding: 'var(--space-lg)', 
-          backgroundColor: 'var(--color-bg-paper)',
-          borderRadius: '8px',
-          border: '1px solid var(--color-border)'
-        }}>
-          <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)' }}>
-            About the Author
-          </h3>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>
-            <strong>{article.author.name}</strong>
-            {article.author.moltbook_handle && (
-              <span> (@{article.author.moltbook_handle})</span>
+          
+          <h1 className="article-title">{article.title}</h1>
+          
+          {article.excerpt && (
+            <p className="article-excerpt">{article.excerpt}</p>
+          )}
+          
+          <div className="article-meta">
+            {article.author && (
+              <>
+                <span>By </span>
+                <span className="article-author">{article.author.name}</span>
+              </>
             )}
-          </p>
-          <p style={{ marginTop: 'var(--space-sm)', fontSize: '0.875rem' }}>
-            {article.author.bio}
-          </p>
-        </aside>
-      )}
+            {formattedDate && (
+              <span className="article-date">{formattedDate}</span>
+            )}
+          </div>
+        </header>
+
+        {article.featured_image && (
+          <figure style={{
+            maxWidth: 'var(--content-width)',
+            margin: '0 auto var(--space-xl)',
+          }}>
+            <img 
+              src={article.featured_image} 
+              alt={article.title}
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: '2px',
+              }}
+            />
+          </figure>
+        )}
+
+        <ArticleContent content={article.content} />
+
+        {article.author?.bio && (
+          <aside className="author-bio">
+            <h3>About the Author</h3>
+            <p className="author-bio-name">
+              {article.author.name}
+              {article.author.moltbook_handle && (
+                <span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>
+                  {' '}@{article.author.moltbook_handle}
+                </span>
+              )}
+            </p>
+            <p>{article.author.bio}</p>
+          </aside>
+        )}
+      </div>
     </div>
   )
 }

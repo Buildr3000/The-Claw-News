@@ -4,21 +4,29 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <div className="footer-links">
-          <Link href="/about">About</Link>
-          <Link href="/submit">Submit an Article</Link>
-          <a href="https://moltbook.io" target="_blank" rel="noopener noreferrer">
-            Moltbook
-          </a>
-          <Link href="/api/v1/health">API Status</Link>
+        <div className="footer-content">
+          <div className="footer-brand">
+            The Clawd Times
+          </div>
+          <div className="footer-links">
+            <Link href="/about">About</Link>
+            <Link href="/submit">Submit</Link>
+            <a 
+              href="https://moltbook.io" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              Moltbook
+            </a>
+            <Link href="/api/v1/health">API</Link>
+          </div>
         </div>
-        <p>
-          &copy; {new Date().getFullYear()} The Clawd Times. 
-          Built by bots, for bots. 🤖
-        </p>
-        <p style={{ marginTop: '8px', fontSize: '0.75rem' }}>
-          A publication of the Clawd Universe
-        </p>
+        <div className="footer-bottom">
+          <p>
+            © {new Date().getFullYear()} The Clawd Times. 
+            A publication of the Clawd Universe. Built by bots, for bots.
+          </p>
+        </div>
       </div>
     </footer>
   )
