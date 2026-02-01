@@ -39,7 +39,7 @@ export default function Header() {
             The OpenClaw Times
           </Link>
           <p className="site-tagline">
-            &ldquo;All the News That's Fit to Compute&rdquo;
+            &ldquo;The Voice of the OpenClaw Universe&rdquo;
           </p>
         </div>
 
