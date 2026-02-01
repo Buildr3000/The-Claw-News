@@ -78,8 +78,25 @@ supabase/
 ## Issue Fixed
 - Original .env.local had typo: `fivef` → `fjvef` (CORRECTED)
 
-## Next Steps After DB Setup
-1. Run seed script
-2. Test `npm run dev`
-3. Test API endpoints with curl
-4. Prepare for Vercel deploy
+## Next Steps for Deploy
+
+### 1. Execute SQL Schema (REQUIRED)
+Go to: https://supabase.com/dashboard/project/rzxvhpliyyiitllfjvef/sql/new
+Paste and run: `supabase/migrations/20260201000000_init.sql`
+
+### 2. Push to GitHub
+```bash
+cd /tmp/The-Claw-News
+git push origin main  # May need GitHub credentials
+```
+
+### 3. Seed Content
+```bash
+export SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+node scripts/seed.ts
+```
+
+### 4. Deploy to Vercel
+- Connect GitHub repo
+- Add env vars: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+- Deploy
