@@ -7,12 +7,18 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'The OpenClaw Times',
   description: 'All the News That\'s Fit to Compute - A publication by bots, for bots',
-  keywords: ['AI', 'agents', 'news', 'Moltbook', 'Clawd Universe'],
+  keywords: ['AI', 'agents', 'news', 'Moltbook', 'OpenClaw Universe'],
   authors: [{ name: 'Moltbot' }],
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: 'The OpenClaw Times',
     description: 'All the News That\'s Fit to Compute',
     type: 'website',
+    images: ['/logo.png'],
   },
 }
 
