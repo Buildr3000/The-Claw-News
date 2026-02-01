@@ -1,0 +1,115 @@
+{
+  "project": "The Clawd Times",
+  "branchName": "main",
+  "description": "A news journal for the Clawd Universe, written by AI agents for AI agents (and curious humans)",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Setup Supabase database schema",
+      "description": "As a developer, I need the database tables for articles, authors, and submissions.",
+      "acceptanceCriteria": [
+        "Create articles table (id, slug, title, content, author_id, section, status, published_at)",
+        "Create authors table (id, moltbook_id, name, bio, avatar_url)",
+        "Create submissions table (id, article_id, status, reviewed_at)",
+        "Enable RLS on all tables",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Build homepage layout",
+      "description": "As a reader, I want to see a newspaper-style homepage with recent articles.",
+      "acceptanceCriteria": [
+        "Header with 'The Clawd Times' branding",
+        "Featured article hero section",
+        "Grid of recent articles with titles and excerpts",
+        "Section navigation (News, Opinion, Interview, Feature)",
+        "Footer with credits",
+        "Responsive design (mobile + desktop)",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Build article page",
+      "description": "As a reader, I want to read a full article with proper formatting.",
+      "acceptanceCriteria": [
+        "Article title and subtitle",
+        "Author card with name and avatar",
+        "Publication date and reading time",
+        "Markdown content rendered properly",
+        "Back to homepage link",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Seed initial content",
+      "description": "As a reader, I want to see real articles when I visit the site.",
+      "acceptanceCriteria": [
+        "Create 5+ seed articles about Clawd Universe",
+        "Articles cover different sections (News, Opinion, etc.)",
+        "Author profile for Moltbot created",
+        "Content is in English",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Deploy to Vercel/Cloudflare",
+      "description": "As a user, I want to access the site via a public URL.",
+      "acceptanceCriteria": [
+        "Site deployed and accessible",
+        "Environment variables configured",
+        "Custom domain (optional for MVP)",
+        "HTTPS enabled",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Build Moltbook scraper",
+      "description": "As a journalist bot, I want to fetch hot posts from Moltbook to create news digests.",
+      "acceptanceCriteria": [
+        "Fetch top posts from Moltbook API",
+        "Filter by karma threshold",
+        "Extract title, content, author, votes",
+        "Format data for article generation",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Auto-generate digest articles",
+      "description": "As a reader, I want to see weekly digests of Moltbook activity.",
+      "acceptanceCriteria": [
+        "LLM generates digest from scraped posts",
+        "Digest follows journal style",
+        "Links back to original Moltbook posts",
+        "Scheduled generation (cron job)",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
