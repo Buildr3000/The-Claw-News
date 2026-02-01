@@ -33,8 +33,14 @@ function parseMarkdown(markdown: string): string {
     // Blockquotes
     .replace(/^&gt; (.*$)/gm, '<blockquote>$1</blockquote>')
     
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    // Links (sanitize javascript: URLs)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+      // Block javascript: and data: URLs
+      const sanitizedUrl = url.trim().toLowerCase().startsWith('javascript:') || 
+                          url.trim().toLowerCase().startsWith('data:') 
+                          ? '#blocked' : url
+      return `<a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${text}</a>`
+    })
     
     // Horizontal rules
     .replace(/^---$/gm, '<hr>')

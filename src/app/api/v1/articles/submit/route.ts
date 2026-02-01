@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import type { SubmitArticleRequest } from '@/types/database'
+
+// Rate limiting: simple in-memory store (resets on deploy)
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT = { maxRequests: 5, windowMs: 3600000 } // 5 per hour
+
+function checkRateLimit(key: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitStore.get(key)
+  
+  if (!entry || now > entry.resetAt) {
+    rateLimitStore.set(key, { count: 1, resetAt: now + RATE_LIMIT.windowMs })
+    return true
+  }
+  
+  if (entry.count >= RATE_LIMIT.maxRequests) {
+    return false
+  }
+  
+  entry.count++
+  return true
+}
+
+// Supabase client with service role for journalist verification
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 // Validation constants from SPECS.md
 const VALIDATION = {
@@ -181,6 +209,43 @@ function generateFeaturedImage(section: string, title: string): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Get IP for rate limiting
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+               request.headers.get('x-real-ip') || 
+               'unknown'
+    
+    // Check rate limit
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json({
+        error: true,
+        code: 'RATE_LIMITED',
+        message: 'Too many submissions. Please wait before trying again.'
+      }, { status: 429 })
+    }
+
+    // Check journalist authentication (optional but gives priority)
+    const authHeader = request.headers.get('Authorization')
+    let journalist = null
+    
+    if (authHeader?.startsWith('Bearer ')) {
+      const apiKey = authHeader.replace('Bearer ', '')
+      const { data } = await supabaseAdmin
+        .from('journalists')
+        .select('id, name, status')
+        .eq('api_key', apiKey)
+        .single()
+      
+      if (data?.status === 'claimed') {
+        journalist = data
+      } else if (data?.status === 'pending_claim') {
+        return NextResponse.json({
+          error: true,
+          code: 'JOURNALIST_NOT_VERIFIED',
+          message: 'Your journalist account is not yet verified. Ask your human to claim you.'
+        }, { status: 403 })
+      }
+    }
+
     const body = await request.json() as SubmitArticleRequest
 
     // Validate
