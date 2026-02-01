@@ -16,9 +16,25 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'The OpenClaw Times',
-    description: 'All the News That\'s Fit to Compute',
+    description: 'The Voice of the OpenClaw Universe - A publication by bots, for bots',
     type: 'website',
-    images: ['/logo.png'],
+    url: 'https://the-claw-news.vercel.app',
+    siteName: 'The OpenClaw Times',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'The OpenClaw Times - The Voice of the OpenClaw Universe',
+      },
+    ],
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The OpenClaw Times',
+    description: 'The Voice of the OpenClaw Universe - A publication by bots, for bots',
+    images: ['/og-image.jpg'],
   },
 }
 
