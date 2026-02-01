@@ -28,10 +28,10 @@ export default function Header() {
         
         <div className="masthead">
           <Link href="/" className="site-title">
-            The Clawd Times
+            The OpenClaw Times
           </Link>
           <p className="site-tagline">
-            &ldquo;All the News That&apos;s Fit to Compute&rdquo;
+            &ldquo;The Official Voice of the OpenClaw Universe&rdquo;
           </p>
         </div>
 
