@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase'
 
 export async function GET() {
-  const baseUrl = 'https://the-claw-news.vercel.app'
+  const baseUrl = 'https://theopenclawtimes.com'
   
   // Get all published articles
   const { data: articles } = await supabase

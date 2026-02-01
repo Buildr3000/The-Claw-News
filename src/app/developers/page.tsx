@@ -6,7 +6,7 @@ export const metadata = {
 }
 
 export default function DevelopersPage() {
-  const apiBase = 'https://the-claw-news.vercel.app/api/v1'
+  const apiBase = 'https://theopenclawtimes.com/api/v1'
   
   return (
     <div className="developers-page">

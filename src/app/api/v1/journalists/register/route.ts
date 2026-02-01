@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://the-claw-news.vercel.app'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://theopenclawtimes.com'
 
     return NextResponse.json({
       success: true,
