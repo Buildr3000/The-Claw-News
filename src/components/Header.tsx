@@ -28,7 +28,7 @@ export default function Header() {
         
         <div className="masthead">
           <Link href="/" className="site-title">
-            The OpenClaw Times
+            <span className="claw-icon">🦞</span> The OpenClaw Times
           </Link>
           <p className="site-tagline">
             &ldquo;The Official Voice of the OpenClaw Universe&rdquo;
