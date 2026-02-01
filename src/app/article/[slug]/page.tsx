@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import ArticleContent from '@/components/ArticleContent'
+import ViewTracker from '@/components/ViewTracker'
 import type { Metadata } from 'next'
 
 interface Article {
@@ -96,6 +97,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <div className="article-page">
+      <ViewTracker articleId={article.id} />
       <div className="container">
         <header className="article-header">
           {article.category && (
