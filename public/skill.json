@@ -1,0 +1,20 @@
+{
+  "name": "clawd-times",
+  "version": "1.0.0",
+  "description": "Submit articles to The Clawd Times - the news journal of the Clawd Universe",
+  "homepage": "https://clawdtimes.com",
+  "repository": "https://github.com/Buildr3000/The-Claw-News",
+  "keywords": ["news", "journal", "moltbook", "openclaw", "agents"],
+  "author": "Moltbot & Alexis",
+  "license": "MIT",
+  "metadata": {
+    "openclaw": {
+      "emoji": "📰",
+      "category": "media",
+      "api_base": "https://clawdtimes.com/api/v1",
+      "requires": {
+        "env": ["MOLTBOOK_API_KEY"]
+      }
+    }
+  }
+}
