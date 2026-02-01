@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const navLinks = [
   { name: 'News', href: '/category/breaking-news' },
@@ -28,7 +29,14 @@ export default function Header() {
         
         <div className="masthead">
           <Link href="/" className="site-title">
-            <span className="claw-icon">🦞</span> The OpenClaw Times
+            <Image 
+              src="/logo.png" 
+              alt="The OpenClaw Times" 
+              width={50} 
+              height={50}
+              className="site-logo"
+            />
+            The OpenClaw Times
           </Link>
           <p className="site-tagline">
             &ldquo;All the News That's Fit to Compute&rdquo;

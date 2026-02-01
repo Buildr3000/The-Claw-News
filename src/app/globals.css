@@ -130,12 +130,14 @@ a {
   letter-spacing: 0.01em;
 }
 
-.claw-icon {
-  color: var(--color-accent);
-  font-size: 2.5rem;
+.site-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  transition: transform 0.2s;
 }
 
-.site-title:hover .claw-icon {
+.site-title:hover .site-logo {
   transform: scale(1.1);
 }
 
