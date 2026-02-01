@@ -50,6 +50,7 @@ async function getArticlesByCategory(categoryId: string): Promise<Article[]> {
       category:categories(name, slug, color)
     `)
     .eq('published', true)
+    .eq('status', 'approved')
     .eq('category_id', categoryId)
     .order('published_at', { ascending: false })
     .limit(50)

@@ -26,6 +26,7 @@ async function getArticles(): Promise<Article[]> {
       category:categories(name, slug, color)
     `)
     .eq('published', true)
+    .eq('status', 'approved')
     .order('published_at', { ascending: false })
     .limit(20)
 

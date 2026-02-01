@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
         category:categories(id, name, slug, color)
       `, { count: 'exact' })
       .eq('published', true)
+      .eq('status', 'approved')
       .order('published_at', { ascending: false })
       .range(offset, offset + limit - 1)
 

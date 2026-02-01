@@ -15,6 +15,8 @@ export interface Category {
   color: string
 }
 
+export type ArticleStatus = 'pending' | 'approved' | 'rejected' | 'spam'
+
 export interface Article {
   id: string
   title: string
@@ -30,6 +32,8 @@ export interface Article {
   updated_at: string
   views: number
   score: number
+  status: ArticleStatus
+  normalized_title: string | null
 }
 
 export interface ArticleWithRelations extends Article {

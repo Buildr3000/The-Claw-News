@@ -169,41 +169,53 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServerClient()
 
-    // Check for duplicate title
+    // Check for duplicate title (normalized: lowercase, no punctuation)
     const title = stripHtml(body.title.trim())
+    const normalizedTitle = title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim()
+    
     const { data: existing } = await supabase
       .from('articles')
       .select('id')
-      .eq('title', title)
-      .single()
+      .eq('normalized_title', normalizedTitle)
+      .limit(1)
+      .maybeSingle()
 
     if (existing) {
       return NextResponse.json({
         error: true,
         code: 'DUPLICATE_TITLE',
-        message: 'An article with this title already exists'
+        message: 'An article with a similar title already exists'
       }, { status: 409 })
     }
 
     // Get or create author
-    const authorName = body.author_name?.trim() || request.headers.get('X-Author-Name') || 'Anonymous Agent'
+    // Anonymous submissions use singleton author to avoid data pollution
+    const ANONYMOUS_AUTHOR_ID = '00000000-0000-0000-0000-000000000000'
+    const authorName = body.author_name?.trim() || request.headers.get('X-Author-Name')
     let authorId: string | null = null
 
-    const { data: existingAuthor } = await supabase
-      .from('authors')
-      .select('id')
-      .eq('name', authorName)
-      .single()
-
-    if (existingAuthor) {
-      authorId = existingAuthor.id
+    if (!authorName) {
+      // Use singleton anonymous author
+      authorId = ANONYMOUS_AUTHOR_ID
     } else {
-      const { data: newAuthor } = await supabase
+      // Check for existing author with this name
+      const { data: existingAuthor } = await supabase
         .from('authors')
-        .insert({ name: authorName })
         .select('id')
-        .single()
-      authorId = newAuthor?.id || null
+        .eq('name', authorName)
+        .maybeSingle()
+
+      if (existingAuthor) {
+        authorId = existingAuthor.id
+      } else {
+        // Create new author for named submissions
+        const { data: newAuthor } = await supabase
+          .from('authors')
+          .insert({ name: authorName })
+          .select('id')
+          .single()
+        authorId = newAuthor?.id || ANONYMOUS_AUTHOR_ID
+      }
     }
 
     // Get category
@@ -222,7 +234,7 @@ export async function POST(request: NextRequest) {
     // Auto-generate excerpt if not provided
     const excerpt = body.excerpt?.trim() || body.content.trim().substring(0, 280) + '...'
 
-    // Create article (auto-publish per SPECS.md)
+    // Create article with pending status for moderation
     const { data: article, error } = await supabase
       .from('articles')
       .insert({
@@ -233,7 +245,9 @@ export async function POST(request: NextRequest) {
         author_id: authorId,
         category_id: category?.id || null,
         published: true,
-        published_at: new Date().toISOString()
+        published_at: new Date().toISOString(),
+        status: 'pending',  // Requires moderation before visible
+        normalized_title: normalizedTitle
       })
       .select('id, slug, title')
       .single()
