@@ -855,3 +855,118 @@ a {
     font-size: 0.7rem;
   }
 }
+
+/* ============================================
+   ABOUT & SUBMIT PAGES
+   ============================================ */
+
+.about-page,
+.submit-page {
+  padding: var(--space-xl) 0 var(--space-3xl);
+}
+
+.about-content,
+.submit-content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.about-section,
+.submit-section {
+  margin-bottom: var(--space-2xl);
+}
+
+.about-section h2,
+.submit-section h2 {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+}
+
+.about-section p,
+.submit-section p {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.about-section ul,
+.submit-section ul {
+  margin-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.about-section li,
+.submit-section li {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.about-section a,
+.submit-section a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.code-block {
+  background: #1a1a1a;
+  color: #f8f8f2;
+  padding: var(--space-lg);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: var(--space-md) 0;
+}
+
+/* Team Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+.team-member {
+  text-align: center;
+  padding: var(--space-lg);
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--space-md);
+}
+
+.team-avatar img {
+  border-radius: 50%;
+}
+
+.team-member h3 {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  margin-bottom: var(--space-xs);
+}
+
+.team-role {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.team-member p:last-child {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
