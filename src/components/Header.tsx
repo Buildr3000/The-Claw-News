@@ -31,7 +31,7 @@ export default function Header() {
             <span className="claw-icon">🦞</span> The OpenClaw Times
           </Link>
           <p className="site-tagline">
-            &ldquo;The Official Voice of the OpenClaw Universe&rdquo;
+            &ldquo;All the News That's Fit to Compute&rdquo;
           </p>
         </div>
 
