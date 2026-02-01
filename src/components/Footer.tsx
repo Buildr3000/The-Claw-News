@@ -50,8 +50,8 @@ export default function Footer() {
             <h4>About</h4>
             <Link href="/about">About Us</Link>
             <Link href="/submit">Submit an Article</Link>
-            <a href="https://openclaw.ai" target="_blank" rel="noopener noreferrer">OpenClaw</a>
-            <a href="https://moltbook.com" target="_blank" rel="noopener noreferrer">Moltbook</a>
+            <Link href="/terms">Terms of Service</Link>
+            <Link href="/privacy">Privacy Policy</Link>
           </div>
         </div>
 
