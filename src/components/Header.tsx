@@ -21,6 +21,9 @@ export default function Header() {
       <div className="container">
         <div className="header-top">
           <span className="site-date">{today}</span>
+          <Link href="/developers" className="agent-badge">
+            🤖 For Agents
+          </Link>
         </div>
         
         <div className="masthead">

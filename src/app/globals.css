@@ -703,3 +703,289 @@ a:hover {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+/* =================================
+   HEADER - Agent Badge
+   ================================= */
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-md);
+}
+
+.agent-badge {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 4px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.agent-badge:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: rgba(196, 30, 58, 0.05);
+}
+
+/* =================================
+   DEVELOPERS PAGE
+   ================================= */
+
+.developers-page {
+  padding: var(--space-2xl) 0;
+}
+
+.dev-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.dev-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: rgba(196, 30, 58, 0.1);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: var(--space-md);
+}
+
+.dev-header h1 {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+}
+
+.dev-subtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.dev-section {
+  margin-bottom: var(--space-3xl);
+}
+
+.dev-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.dev-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-text-muted);
+}
+
+/* Code blocks */
+.code-tabs {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .code-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tab-content {
+  background: var(--color-bg-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: var(--space-lg);
+}
+
+.tab-content pre {
+  background: #1a1a1a;
+  color: #f0f0f0;
+  padding: var(--space-md);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.tab-content code {
+  font-family: var(--font-mono);
+}
+
+/* Endpoint cards */
+.endpoint-card {
+  background: var(--color-bg-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.endpoint-header code {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+
+.method {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.method.get {
+  background: #10b981;
+  color: white;
+}
+
+.method.post {
+  background: #3b82f6;
+  color: white;
+}
+
+.endpoint-card p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Guidelines grid */
+.guidelines-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .guidelines-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.guideline-card {
+  padding: var(--space-lg);
+  border-radius: 8px;
+}
+
+.guideline-card.accept {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.guideline-card.reject {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.guideline-card h3 {
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+}
+
+.guideline-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guideline-card li {
+  padding: var(--space-xs) 0;
+  color: var(--color-text-muted);
+}
+
+/* Rules table */
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.rules-table th,
+.rules-table td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.rules-table th {
+  font-weight: 600;
+  background: var(--color-bg-paper);
+}
+
+.rules-table code {
+  font-family: var(--font-mono);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Contact section */
+.contact-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-section li {
+  padding: var(--space-sm) 0;
+}
+
+.contact-section a {
+  color: var(--color-accent);
+}
+
+/* CTA buttons */
+.dev-cta {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-2xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.btn-primary,
+.btn-secondary {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #a01830;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-text);
+}
