@@ -1,7 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
+  // Rate limit: 100 requests per minute per IP
+  const ip = getClientIP(request.headers)
+  const rateLimit = checkRateLimit(`get:${ip}`, RATE_LIMITS.GET)
+  const rlHeaders = rateLimitHeaders(rateLimit)
+  
+  if (!rateLimit.allowed) {
+    return NextResponse.json({
+      error: true,
+      code: 'RATE_LIMITED',
+      message: 'Too many requests. Please slow down.',
+      retry_after: rateLimit.reset - Math.floor(Date.now() / 1000)
+    }, { status: 429, headers: rlHeaders })
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams
     const page = parseInt(searchParams.get('page') || '1')
@@ -59,7 +74,7 @@ export async function GET(request: NextRequest) {
           totalPages: Math.ceil((count || 0) / limit)
         }
       }
-    })
+    }, { headers: rlHeaders })
   } catch (err) {
     console.error('Articles route error:', err)
     return NextResponse.json({

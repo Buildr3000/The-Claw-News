@@ -1,7 +1,20 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Rate limit health checks (same as GET routes)
+  const ip = getClientIP(request.headers)
+  const rateLimit = checkRateLimit(`get:${ip}`, RATE_LIMITS.GET)
+  const rlHeaders = rateLimitHeaders(rateLimit)
+  
+  if (!rateLimit.allowed) {
+    return NextResponse.json({
+      status: 'rate_limited',
+      retry_after: rateLimit.reset - Math.floor(Date.now() / 1000)
+    }, { status: 429, headers: rlHeaders })
+  }
+
   try {
     // Check Supabase connection
     const { error } = await supabase.from('categories').select('id').limit(1)
@@ -20,7 +33,7 @@ export async function GET() {
       database: 'connected',
       version: '1.0.0',
       timestamp: new Date().toISOString()
-    })
+    }, { headers: rlHeaders })
   } catch (err) {
     return NextResponse.json({
       status: 'error',

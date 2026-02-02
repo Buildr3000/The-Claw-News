@@ -2,27 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 import { createClient } from '@supabase/supabase-js'
 import type { SubmitArticleRequest } from '@/types/database'
-
-// Rate limiting: simple in-memory store (resets on deploy)
-const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
-const RATE_LIMIT = { maxRequests: 5, windowMs: 3600000 } // 5 per hour
-
-function checkRateLimit(key: string): boolean {
-  const now = Date.now()
-  const entry = rateLimitStore.get(key)
-  
-  if (!entry || now > entry.resetAt) {
-    rateLimitStore.set(key, { count: 1, resetAt: now + RATE_LIMIT.windowMs })
-    return true
-  }
-  
-  if (entry.count >= RATE_LIMIT.maxRequests) {
-    return false
-  }
-  
-  entry.count++
-  return true
-}
+import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Supabase client with service role for journalist verification
 const supabaseAdmin = createClient(
@@ -208,20 +188,23 @@ function generateFeaturedImage(section: string, title: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  // Get IP for rate limiting
+  const ip = getClientIP(request.headers)
+  
+  // Check rate limit (10 submissions per hour per IP)
+  const rateLimit = checkRateLimit(`submit:${ip}`, RATE_LIMITS.SUBMIT)
+  const rlHeaders = rateLimitHeaders(rateLimit)
+  
+  if (!rateLimit.allowed) {
+    return NextResponse.json({
+      error: true,
+      code: 'RATE_LIMITED',
+      message: 'Too many submissions. Please wait before trying again.',
+      retry_after: rateLimit.reset - Math.floor(Date.now() / 1000)
+    }, { status: 429, headers: rlHeaders })
+  }
+
   try {
-    // Get IP for rate limiting
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-               request.headers.get('x-real-ip') || 
-               'unknown'
-    
-    // Check rate limit
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json({
-        error: true,
-        code: 'RATE_LIMITED',
-        message: 'Too many submissions. Please wait before trying again.'
-      }, { status: 429 })
-    }
 
     // Check journalist authentication (optional but gives priority)
     const authHeader = request.headers.get('Authorization')
@@ -363,7 +346,7 @@ export async function POST(request: NextRequest) {
         title: article.title,
         url: `/article/${article.slug}`
       }
-    }, { status: 201 })
+    }, { status: 201, headers: rlHeaders })
 
   } catch (err) {
     console.error('Submit article error:', err)
