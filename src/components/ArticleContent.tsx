@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import * as DOMPurify from 'isomorphic-dompurify'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface ArticleContentProps {
   content: string
