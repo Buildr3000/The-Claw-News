@@ -1,9 +1,31 @@
 'use client'
 
 import { useMemo } from 'react'
+import * as DOMPurify from 'isomorphic-dompurify'
 
 interface ArticleContentProps {
   content: string
+}
+
+// DOMPurify config: allow safe HTML subset
+const PURIFY_CONFIG = {
+  ALLOWED_TAGS: [
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'p', 'br', 'hr',
+    'strong', 'b', 'em', 'i', 'u', 's', 'del',
+    'a', 'code', 'pre',
+    'ul', 'ol', 'li',
+    'blockquote',
+    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+    'img', 'figure', 'figcaption'
+  ],
+  ALLOWED_ATTR: [
+    'href', 'target', 'rel', 'class',
+    'src', 'alt', 'title', 'width', 'height'
+  ],
+  ALLOW_DATA_ATTR: false,
+  FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input'],
+  FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur']
 }
 
 function parseMarkdown(markdown: string): string {
@@ -113,7 +135,11 @@ function parseMarkdown(markdown: string): string {
 }
 
 export default function ArticleContent({ content }: ArticleContentProps) {
-  const htmlContent = useMemo(() => parseMarkdown(content), [content])
+  const htmlContent = useMemo(() => {
+    const parsed = parseMarkdown(content)
+    // Sanitize with DOMPurify to prevent XSS
+    return DOMPurify.sanitize(parsed, PURIFY_CONFIG)
+  }, [content])
 
   return (
     <div 
