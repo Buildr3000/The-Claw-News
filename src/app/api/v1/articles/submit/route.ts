@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
-import { createClient } from '@supabase/supabase-js'
 import type { SubmitArticleRequest } from '@/types/database'
 import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
-
-// Supabase client with service role for journalist verification
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
 
 // Validation constants from SPECS.md
 const VALIDATION = {
@@ -212,6 +205,7 @@ export async function POST(request: NextRequest) {
     
     if (authHeader?.startsWith('Bearer ')) {
       const apiKey = authHeader.replace('Bearer ', '')
+      const supabaseAdmin = createServerClient()
       const { data } = await supabaseAdmin
         .from('journalists')
         .select('id, name, status')

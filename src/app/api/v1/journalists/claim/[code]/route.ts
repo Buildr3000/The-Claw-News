@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { createServerClient } from '@/lib/supabase'
 
 export async function GET(
   request: NextRequest,
@@ -13,6 +8,7 @@ export async function GET(
   try {
     const { code } = await params
 
+    const supabase = createServerClient()
     const { data: journalist, error } = await supabase
       .from('journalists')
       .select('name, description, verification_code, status')

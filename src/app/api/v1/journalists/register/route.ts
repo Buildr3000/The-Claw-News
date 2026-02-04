@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@/lib/supabase'
 import crypto from 'crypto'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
 
 function generateApiKey(): string {
   return 'oct_sk_' + crypto.randomBytes(24).toString('base64url')
@@ -41,6 +36,8 @@ export async function POST(request: NextRequest) {
         error: 'Name must be alphanumeric (with spaces/dashes)'
       }, { status: 400 })
     }
+
+    const supabase = createServerClient()
 
     // Check if name exists
     const { data: existing } = await supabase

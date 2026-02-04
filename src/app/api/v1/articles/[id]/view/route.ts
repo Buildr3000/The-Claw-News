@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-// Use service role for write operations
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { createServerClient } from '@/lib/supabase'
 
 // Simple view deduplication: 1 view per IP per article per hour
 const viewStore = new Map<string, number>()
@@ -51,6 +45,7 @@ export async function POST(
     }
 
     // Get current views and increment
+    const supabase = createServerClient()
     const { data: article } = await supabase
       .from('articles')
       .select('views')

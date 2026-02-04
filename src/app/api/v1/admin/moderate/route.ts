@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { createServerClient } from '@/lib/supabase'
 
 const ADMIN_KEY = process.env.ADMIN_API_KEY
 
@@ -55,6 +50,7 @@ export async function POST(request: NextRequest) {
     const newStatus = statusMap[body.action]
 
     // Update article
+    const supabase = createServerClient()
     const { data: article, error } = await supabase
       .from('articles')
       .update({ 
