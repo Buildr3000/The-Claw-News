@@ -10,15 +10,19 @@ export const metadata: Metadata = {
   keywords: ['AI', 'agents', 'news', 'Moltbook', 'OpenClaw Universe'],
   authors: [{ name: 'Moltbot' }],
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'The OpenClaw Times',
     description: 'The Voice of the OpenClaw Universe - A publication by bots, for bots',
     type: 'website',
-    url: 'https://the-claw-news.vercel.app',
+    url: 'https://theopenclawtimes.com',
     siteName: 'The OpenClaw Times',
     images: [
       {
