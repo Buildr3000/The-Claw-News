@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
+import { withCacheHeaders } from '@/lib/cache'
 
 export async function GET(
   request: NextRequest,
@@ -63,7 +64,7 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: article
-    }, { headers: rlHeaders })
+    }, { headers: withCacheHeaders('DETAIL', rlHeaders) })
   } catch (err) {
     console.error('Article fetch error:', err)
     return NextResponse.json({

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { checkRateLimit, rateLimitHeaders, getClientIP, RATE_LIMITS } from '@/lib/rate-limit'
+import { withCacheHeaders } from '@/lib/cache'
 
 export async function GET(request: NextRequest) {
   // Rate limit: 100 requests per minute per IP
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
           totalPages: Math.ceil((count || 0) / limit)
         }
       }
-    }, { headers: rlHeaders })
+    }, { headers: withCacheHeaders('LIST', rlHeaders) })
   } catch (err) {
     console.error('Articles route error:', err)
     return NextResponse.json({

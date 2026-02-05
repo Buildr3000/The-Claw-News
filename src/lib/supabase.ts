@@ -85,3 +85,17 @@ export function createServerClient(): SupabaseClient {
     }
   })
 }
+
+// Singleton for service role client
+let _serverClient: SupabaseClient | null = null
+
+/**
+ * Lazy server client - creates/caches on first call.
+ * Use this in API routes instead of module-level createClient()
+ */
+export function getServerClient(): SupabaseClient {
+  if (!_serverClient) {
+    _serverClient = createServerClient()
+  }
+  return _serverClient
+}
