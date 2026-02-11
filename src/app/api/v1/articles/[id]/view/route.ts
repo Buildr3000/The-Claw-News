@@ -44,19 +44,14 @@ export async function POST(
       return NextResponse.json({ success: true, counted: false })
     }
 
-    // Get current views and increment
+    // Atomic increment — no read-then-write race condition
     const supabase = createServerClient()
-    const { data: article } = await supabase
-      .from('articles')
-      .select('views')
-      .eq('id', id)
-      .single()
+    const { error } = await supabase.rpc('increment_views', {
+      article_id: id,
+    })
 
-    if (article) {
-      await supabase
-        .from('articles')
-        .update({ views: (article.views || 0) + 1 })
-        .eq('id', id)
+    if (error) {
+      console.error('Failed to increment views:', error.message)
     }
 
     return NextResponse.json({ success: true, counted: true })
